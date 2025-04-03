@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VisitAir - Flight Booking System</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Welcome to VisitAir</h1>
+    <div class="auth-buttons">
+      <button id="loginBtn">Login</button>
+      <button id="signupBtn">Sign Up</button>
+    </div>
+  </header>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#reserve">Reserve Seat</a>
+    <a href="#track">Track Flight</a>
+    <a href="#support">Support</a>
+  </nav>
+
+  <div class="container">
+    <div id="home" class="content">
+      <h2>Home</h2>
+      <p>Welcome to VisitAir! Enjoy your travels!</p>
+    </div>
+
+    <div id="reserve" class="content" style="display:none;">
+      <h2>Reserve Seat</h2>
+      <form id="flightSearchForm">
+        <label for="name">Full Name:</label><br />
+        <input type="text" id="name" name="name" required /><br /><br />
+        <label for="email">Email:</label><br />
+        <input type="email" id="email" name="email" required /><br /><br />
+        <label for="passengers">Number of Passengers:</label><br />
+        <input type="number" id="passengers" name="passengers" min="1" max="10" value="1" required /><br /><br />
+        <label for="departureCity">City of Departure:</label><br />
+        <input type="text" id="departureCity" name="departureCity" list="cityList" required /><br /><br />
+        <label for="arrivalCity">City of Arrival:</label><br />
+        <input type="text" id="arrivalCity" name="arrivalCity" list="cityList" required /><br /><br />
+        <label for="flightType">Flight Type:</label><br />
+        <select id="flightType" name="flightType">
+          <option value="all">All</option>
+          <option value="domestic">Domestic</option>
+          <option value="international">International</option>
+        </select><br /><br />
+        <input type="submit" value="Search for Flights" />
+      </form>
+
+      <div id="loadingSpinner" style="display:none;">
+        <div class="spinner"></div>
+      </div>
+
+      <div id="flightOptions" style="display:none;">
+        <h3>Available Flights</h3>
+        <div id="flightsList"></div>
+      </div>
+
+      <div id="airplaneDisplay" style="display:none;">
+        <h3>Select Your Seats (<span id="seatsRemaining">1</span> remaining)</h3>
+        <div class="airplane-container">
+          <img src="images/seatplane.png" alt="Top View" class="airplane-image" />
+          <div class="seat-overlay" id="seatOverlay"></div>
+        </div>
+        <div class="seat-legend">
+          <div class="legend-item"><span class="seat first"></span> First Class</div>
+          <div class="legend-item"><span class="seat business"></span> Business Class</div>
+          <div class="legend-item"><span class="seat economy"></span> Economy Class</div>
+          <div class="legend-item"><span class="seat taken"></span> Taken</div>
+          <div class="legend-item"><span class="seat selected"></span> Selected</div>
+        </div>
+        <div id="selectedSeatsList"></div>
+        <button id="confirmSeat" style="margin-top: 20px;">Confirm Seats</button>
+        <button id="backToFlights" style="margin-top: 20px; margin-left: 10px;">Back to Flights</button>
+      </div>
+    </div>
+
+    <div id="transaction" class="content" style="display:none;">
+      <h2>Transaction</h2>
+      <form id="transactionForm">
+        <label for="cardNumber">Card Number:</label><br />
+        <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" required /><br /><br />
+        <label for="expiryDate">Expiry Date:</label><br />
+        <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" required /><br /><br />
+        <label for="cvv">CVV:</label><br />
+        <input type="text" id="cvv" name="cvv" placeholder="123" required /><br /><br />
+        <input type="submit" value="Submit Payment" />
+      </form>
+    </div>
+
+    <div id="confirmation" class="content" style="display:none;">
+      <h2>Booking Confirmation</h2>
+      <p>Thank you for booking with VisitAir!</p>
+      <div id="confirmationDetails"></div>
+      <button id="newBooking" style="margin-top: 20px;">Start New Booking</button>
+    </div>
+
+    <div id="track" class="content" style="display:none;">
+      <h2>Track Flight</h2>
+      <form id="trackFlightForm">
+        <label for="trackingNumber">Enter Confirmation Number:</label><br />
+        <input type="text" id="trackingNumber" name="trackingNumber" required /><br /><br />
+        <input type="submit" value="Track Flight" />
+      </form>
+      <div id="trackingResult"></div>
+    </div>
+
+    <div id="support" class="content" style="display:none;">
+      <h2>Customer Support</h2>
+      <form id="supportForm">
+        <label for="supportName">Name:</label><br />
+        <input type="text" id="supportName" name="supportName" required /><br /><br />
+        <label for="supportEmail">Email:</label><br />
+        <input type="email" id="supportEmail" name="supportEmail" required /><br /><br />
+        <label for="supportMessage">Message:</label><br />
+        <textarea id="supportMessage" name="supportMessage" rows="5" required></textarea><br /><br />
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 VisitAir. | <a href="#privacy">Privacy Policy</a> | <a href="#terms">Terms & Conditions</a></p>
+  </footer>
+
+  <datalist id="cityList">
+    <option value="New York">
+    <option value="Los Angeles">
+    <option value="Chicago">
+    <option value="Houston">
+    <option value="Phoenix">
+    <option value="Philadelphia">
+    <option value="San Antonio">
+    <option value="San Diego">
+    <option value="Dallas">
+    <option value="San Jose">
+    <option value="London">
+    <option value="Paris">
+    <option value="Tokyo">
+    <option value="Sydney">
+    <option value="Dubai">
+  </datalist>
+
+  <!-- Login/Signup Modal -->
+  <div id="authModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span id="closeModal" class="close">&times;</span>
+      <h2 id="modalTitle">Login</h2>
+      <form id="authForm">
+        <label for="authEmail">Email:</label>
+        <input type="email" id="authEmail" required />
+        <br /><br />
+        <label for="authPassword">Password:</label>
+        <input type="password" id="authPassword" required />
+        <br /><br />
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
