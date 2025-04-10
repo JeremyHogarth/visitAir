@@ -397,7 +397,6 @@ function updateSelectedSeatsList() {
         seatDiv.className = 'selected-seat-item';
         seatDiv.innerHTML = `
             <span>Seat ${seatNum}</span>
-            <button class="remove-seat" data-seat="${seatNum}">×</button>
         `;
         seatsContainer.appendChild(seatDiv);
     });
@@ -620,7 +619,7 @@ authForm.addEventListener('submit', async (e) => {
     }
 
     try {
-        const response = await fetch(`http://localhost:5000/${endpoint}`, {
+        const response = await fetch(`http://localhost:8080/${endpoint}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password }),
