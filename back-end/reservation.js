@@ -1,7 +1,6 @@
 import Flight from './flight.js';
 import Customer from './customer.js';
-//
-module.export = Reservation;
+// import Cart from './cart.js'; | cart class to be made
 
 class Reservation {
     constructor() {
@@ -15,12 +14,8 @@ class Reservation {
         this.paymentType = paymentMethod;
     }
 
-    isBooked() {
-        return this.booked;
-    }
-
-    changeBooked(newBooked) {
-        this.booked = newBooked;
+    setBooked(status) {
+        this.booked = status;
     }
 
     setPassenger(passenger) {
@@ -32,22 +27,20 @@ class Reservation {
     }
 
     displayReservationInfo() {
-        console.log("Reservation Info:");
+        console.log("=== Reservation Info ===");
         console.log(`Booked: ${this.booked}`);
-        console.log(`Payment Type: ${this.paymentType}`);
-        if (this.customer) {
-            console.log(`Customer: ${this.customer.name || "Unknown"}`);
-        }
-        if (this.flight) {
-            console.log(`Flight: ${this.flight.flightNumber || "Unknown"}`);
-        }
+        console.log(`Payment Type: ${this.paymentType || "Not set"}`);
+        console.log(`Customer: ${this.customer?.name || "Unknown"}`);
+        console.log(`Flight: ${this.flight?.flightNum || "Unknown"}`);
+        console.log("========================");
     }
 
     makeReservation(passenger, bookedFlight, paymentMethod) {
         this.setPassenger(passenger);
         this.setFlight(bookedFlight);
         this.setPayment(paymentMethod);
-        this.changeBooked(true);
+        this.setBooked(true);
     }
 }
 
+export default Reservation;

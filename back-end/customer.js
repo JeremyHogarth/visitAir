@@ -1,11 +1,27 @@
 const Flight = require('./flight.js'); // allows customer to import flight
 
 class Customer {
-    constructor(inputName, inputEmail, inputPassword) {
-        this.name = inputName;
-        this.email = inputEmail;
-        this.password = inputPassword;
-        this.uid = Math.floor(Math.random() * 10000) + 1;
+    constructor(name, email, password, hasAccount = false) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.hasAccount = hasAccount;
+        this.uid = this.generateUID();
+        this.typeCustomer = this.setCustomerType();
+    }
+
+    setAcc(status) {
+        this.hasAccount = status;
+        this.uid = this.generateUID();
+        this.typeCustomer = this.setCustomerType();
+    }
+
+    generateUID() {
+        return this.hasAccount ? Math.floor(Math.random() * 10000) + 1 : "Guest";
+    }
+
+    setCustomerType() {
+        return this.hasAccount ? "User" : "Guest";
     }
 
     getUID() {
@@ -25,13 +41,12 @@ class Customer {
     }
 
     displayInfo() {
-        console.log(this.name + " | UID: " + this.uid + " | " + this.email);
+        console.log(`${this.name} | UID: ${this.uid} | ${this.email}`);
     }
 }
 
-// allows other classes to use customer class
 module.exports = Customer;
 
-// display example customer info
-const customer1 = new Customer("John Doe", "john@example.com", "securePass123");
+// Example usage
+const customer1 = new Customer("John Doe", "john@example.com", "securePass123", true);
 customer1.displayInfo();
