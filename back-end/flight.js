@@ -1,53 +1,123 @@
-// ES Module style import (optional based on your setup)
- import Seat from './seat.js';
- import Customer from './customer.js';
- import Plane from './plane.js';
+const Seat = require('./seat.js'); // Import Seat class
+const Customer = require('./customer.js'); // Import Customer class
+const Plane = require('./plane.js'); // Import Plane class (though not used yet)
 
+// Flight class for managing flight details and booking
 class Flight {
-    constructor({
-        flightNum,
-        airline,
-        destination,
-        departure,
-        timeOfDepart,
-        timeOfArriv,
-        price = 0
-    }) {
+    constructor(flightNum, airline, departure, destination, timeOfDepart, timeOfArriv, price) {
+        if (!flightNum || !airline || !departure || !destination || !timeOfDepart || !timeOfArriv) {
+            throw new Error("Missing required flight details: flightNum, airline, departure, destination, timeOfDepart, timeOfArriv");
+        }
+        
         this.flightNum = flightNum;
         this.airline = airline;
-        this.destination = destination;
         this.departure = departure;
+        this.destination = destination;
         this.timeOfDepart = timeOfDepart;
         this.timeOfArriv = timeOfArriv;
-        this.price = price;
+        this.price = price || 0;
+
+        this.seats = []; // Seat objects
+        this.passengers = []; // Customer objects
     }
 
-    setPrice(newPrice) {
+    // Add a seat to the flight
+    addSeat(seat) {
+        if (!(seat instanceof Seat)) {
+            throw new Error("Invalid seat object.");
+        }
+        this.seats.push(seat);
+    }
+
+    // Book a seat for a customer
+    bookSeat(seatNumber, customer) {
+        if (!(customer instanceof Customer)) {
+            throw new Error("Invalid customer object.");
+        }
+        const seat = this.seats.find(s => s.seatNumber === seatNumber && !s.isBooked);
+        if (!seat) {
+            throw new Error("Seat is either already booked or doesn't exist.");
+        }
+        seat.book(customer);
+        this.passengers.push(customer);
+        return true;
+    }
+
+    // Update methods below
+
+    updateAirline(newAirline) {
+        if (!newAirline) {
+            throw new Error("Airline name cannot be empty.");
+        }
+        this.airline = newAirline;
+    }
+
+    updateDeparture(newDeparture) {
+        if (!newDeparture) {
+            throw new Error("Departure location cannot be empty.");
+        }
+        this.departure = newDeparture;
+    }
+
+    updateDestination(newDestination) {
+        if (!newDestination) {
+            throw new Error("Destination cannot be empty.");
+        }
+        this.destination = newDestination;
+    }
+
+    updateDepartureTime(newTime) {
+        if (!newTime) {
+            throw new Error("Departure time cannot be empty.");
+        }
+        this.timeOfDepart = newTime;
+    }
+
+    updateArrivalTime(newTime) {
+        if (!newTime) {
+            throw new Error("Arrival time cannot be empty.");
+        }
+        this.timeOfArriv = newTime;
+    }
+
+    updatePrice(newPrice) {
+        if (newPrice < 0) {
+            throw new Error("Price cannot be negative.");
+        }
         this.price = newPrice;
     }
 
-    displayTimes() {
-        console.log(`Estimated Departure Time: ${this.timeOfDepart}`);
-        console.log(`Estimated Arrival Time: ${this.timeOfArriv}`);
+    updateFlightNumber(newFlightNum) {
+        if (!newFlightNum) {
+            throw new Error("Flight number cannot be empty.");
+        }
+        this.flightNum = newFlightNum;
     }
 
-    displayFlightNum() {
-        console.log(`Flight No.: ${this.flightNum}`);
-    }
-
-    displayLocations() {
-        console.log(`Departing From: ${this.departure}`);
-        console.log(`Arriving At: ${this.destination}`);
-    }
-
+    // Display flight information
     displayFlightInfo() {
-        console.log(`--- Flight Information ---`);
-        this.displayFlightNum();
-        this.displayLocations();
-        this.displayTimes();
-        console.log(`Airline: ${this.airline}`);
-        console.log(`Price: $${this.price}`);
-        console.log(`--------------------------`);
+        console.log("---- Flight Info ----");
+        console.log("Flight Number: " + this.flightNum);
+        console.log("Airline: " + this.airline);
+        console.log("From: " + this.departure);
+        console.log("To: " + this.destination);
+        console.log("Departure Time: " + this.timeOfDepart);
+        console.log("Arrival Time: " + this.timeOfArriv);
+        console.log("Price: $" + this.price);
+        console.log("Seats Available: " + this.seats.length);
+        console.log("---------------------");
+    }
+
+    // Show list of passengers
+    showPassengers() {
+        if (this.passengers.length === 0) {
+            console.log("No passengers booked for this flight.");
+            return;
+        }
+        console.log("Passengers on flight " + this.flightNum + ":");
+        this.passengers.forEach(p => {
+            console.log("- " + p.name);
+        });
     }
 }
 
