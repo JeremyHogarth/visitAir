@@ -26,7 +26,7 @@ class Transaction extends Reservation {
         this.validated = newValidation;
     }
 
-    // Charges the customer the required balance (including tax)
+    // Charges the Customer the required balance (including tax)
     charge(paidAmount) {
         if (typeof paidAmount !== 'number' || paidAmount <= 0) {
             throw new Error("Paid amount must be a positive number.");

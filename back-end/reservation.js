@@ -1,13 +1,13 @@
 // Import relevant classes
 import Flight from './flight.js';
-import Customer from './customer.js';
+import Customer from './Customer.js';
 
 class Reservation {
     // Default constructor upon activating the system
     constructor() {
         this.paymentType = null; // Method of Payment not set upon start
         this.flight = null; // Flight for reservation not set upon start
-        this.customer = null; // Customer booking not set upon start
+        this.Customer = null; // Customer booking not set upon start
         this.booked = false; // Reservation not booked upon start
     }
 
@@ -32,7 +32,7 @@ class Reservation {
         if (!(passenger instanceof Customer)) {
             throw new Error("Passenger must be an instance of the Customer class.");
         }
-        this.customer = passenger;
+        this.Customer = passenger;
     }
 
     // Sets which flight the reservation was for
@@ -48,7 +48,7 @@ class Reservation {
         console.log("=== Reservation Info ===");
         console.log(`Booked: ${this.booked}`);
         console.log(`Payment Type: ${this.paymentType || "Not set"}`);
-        console.log(`Customer: ${this.customer?.name || "Unknown"}`);
+        console.log(`Customer: ${this.Customer?.name || "Unknown"}`);
         console.log(`Flight: ${this.flight?.flightNum || "Unknown"}`);
         console.log("========================");
     }

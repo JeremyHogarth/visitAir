@@ -1,6 +1,6 @@
 //importing relevant classes
 import Flight from './flight.js';
-import Customer from './customer.js';
+import Customer from './Customer.js';
 import Plane from './plane.js';
  class Seat {
 

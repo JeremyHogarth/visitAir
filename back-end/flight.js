@@ -1,5 +1,5 @@
 const Seat = require('./seat.js'); // Import Seat class
-const Customer = require('./customer.js'); // Import Customer class
+const Customer = require('./Customer.js'); // Import Customer class
 const Plane = require('./plane.js'); // Import Plane class (though not used yet)
 
 // Flight class for managing flight details and booking
@@ -29,17 +29,17 @@ class Flight {
         this.seats.push(seat);
     }
 
-    // Book a seat for a customer
-    bookSeat(seatNumber, customer) {
-        if (!(customer instanceof Customer)) {
-            throw new Error("Invalid customer object.");
+    // Book a seat for a Customer
+    bookSeat(seatNumber, Customer) {
+        if (!(Customer instanceof Customer)) {
+            throw new Error("Invalid Customer object.");
         }
         const seat = this.seats.find(s => s.seatNumber === seatNumber && !s.isBooked);
         if (!seat) {
             throw new Error("Seat is either already booked or doesn't exist.");
         }
-        seat.book(customer);
-        this.passengers.push(customer);
+        seat.book(Customer);
+        this.passengers.push(Customer);
         return true;
     }
 
