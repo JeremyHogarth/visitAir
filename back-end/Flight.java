@@ -1,3 +1,8 @@
+/**
+ * A class related to a flight; it includes the ability to create flights along with the data needed for an airplane flight, as well as the ability to retrieve and print that data to a user.
+ * Date:
+ * @author X
+ */
 public class Flight {
     private String flightNum;
     private String departureCity;
@@ -5,6 +10,15 @@ public class Flight {
     private String departureTime;
     private double baseFare;
 
+    /**
+     * Constructor for flights, creating fields for flight number, where the flight is leaving from and going to, when it is departing, and the cost
+     * @param flightNum the number associated with a certain flight
+     * @param departureCity the city the flight is leaving from
+     * @param arrivalCity the city the flight is going to 
+     * @param departureTime the time the flight is departing shown as a String
+     * @param baseFare the initial cost of a basic seat
+     * @throws IllegalArgumentException if the flight number or base fare isn't set
+     */
     public Flight(String flightNum, String departureCity, String arrivalCity, String departureTime, double baseFare) {
         if (flightNum == null || flightNum.trim().isEmpty()) {
             throw new IllegalArgumentException("Flight number must not be empty.");
@@ -40,6 +54,9 @@ public class Flight {
         return baseFare;
     }
 
+    /**
+     * By using the parameters of a Flight (FlightNum, DepartureCity, ArrivalCity, DepartureTime, and BaseFare), this prints the data of those fields as well as header "=== Flight Info ==="
+     */
     public void displayFlightInfo() {
         System.out.println("=== Flight Info ===");
         System.out.println("Flight #: " + flightNum);
