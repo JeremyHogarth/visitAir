@@ -4,46 +4,25 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Navigation between sections
-document.querySelectorAll('nav a').forEach(link => {
+document.querySelectorAll('nav a, footer a.nav-link').forEach(link => {
     link.addEventListener('click', function(e) {
         e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1); // Remove #
+
+        // Hide all content sections
         document.querySelectorAll('.content').forEach(content => {
-            content.style.opacity = 0;
-            setTimeout(() => (content.style.display = 'none'), 200);
+            content.style.display = 'none';
         });
-        const target = document.querySelector(this.getAttribute('href'));
-        setTimeout(() => {
-            target.style.display = 'block';
-            target.style.opacity = 1;
-        }, 250);
+
+        // Show the target section
+        document.getElementById(targetId).style.display = 'block';
     });
 });
 
-// Footer navigation links
-document.querySelectorAll('footer a.nav-link').forEach(link => {
-    link.addEventListener('click', function(e) {
-        e.preventDefault();
-        document.querySelectorAll('.content').forEach(content => {
-            content.style.opacity = 0;
-            setTimeout(() => (content.style.display = 'none'), 200);
-        });
-        const target = document.querySelector(this.getAttribute('href'));
-        setTimeout(() => {
-            target.style.display = 'block';
-            target.style.opacity = 1;
-        }, 250);
-    });
-}
-);
-
 // Back button from privacy policy
-document.getElementById('backFromPrivacy').addEventListener('click', () => {
-    document.getElementById('privacy').style.opacity = 0;
-    setTimeout(() => {
+    document.getElementById('backFromPrivacy')?.addEventListener('click', () => {
         document.getElementById('privacy').style.display = 'none';
         document.getElementById('home').style.display = 'block';
-        document.getElementById('home').style.opacity = 1;
-    }, 200);
 });
 
 
@@ -55,16 +34,6 @@ document.getElementById('flightSearchForm').addEventListener('submit', function(
     const arrivalCity = document.getElementById('arrivalCity').value.trim();
     const flightType = document.getElementById('flightType').value;
     const passengers = parseInt(document.getElementById('passengers').value);
-    const privacyContent = document.getElementById('privacyContent');
-    fetch('Privacy Statement.md')
-        .then(response => response.text())
-        .then(text => {
-            privacyContent.innerHTML = '<pre>${text}</pre>';
-        })
-        .catch(err => {
-            console.error('Error loading privacy policy:', err);
-            privacyContent.innerHTML = '<p>Error loading privacy policy.</p>';
-        });
 
     if (!departureCity || !arrivalCity) {
         alert('Please enter both departure and arrival cities.');
