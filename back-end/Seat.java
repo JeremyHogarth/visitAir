@@ -1,10 +1,21 @@
+/**
+ * Controls the seats on the plane.
+ * <p>
+ * Will book seats for customers, but only if the seat is available. This requires checking the status of a seat, setting the status of the seat to "booked" for use in other classes, and pairing a customer with a seat (unless the customer later cancels and frees up the seat).
+ * Date: 
+ * @author X
+ */
 public class Seat {
     private String seatNumber;
     private String seatClass;
     private boolean isBooked;
     private Customer passenger;
 
-    // Constructor
+    /**
+     * Constructor for seats, creating fields for the seat number and class, whether it is booked or not, and the passenger assigned to it
+     * @param seatNumber the number assigned to the seat
+     * @param seatClass the class assigned to the seat (Economy, Business, or First Class)
+     */
     public Seat(String seatNumber, String seatClass) {
         if (seatNumber == null || seatClass == null) {
             throw new IllegalArgumentException("Seat number and seat class are required.");
@@ -16,17 +27,27 @@ public class Seat {
         this.passenger = null;
     }
 
-    // Getter for seat number (used in Flight class for booking)
+    /**
+     * Getter for seat number that is used in Flight class for booking 
+     * @return the seat number to be booked
+     */
     public String getSeatNumber() {
         return this.seatNumber;
     }
 
-    // Getter for seat booked status (used in Flight class to check availability)
+    /**
+     * Getter for seat booked status to be used in Flight class to check availability
+     * @return the status of the seat (whether it is booked or not)
+     */
     public boolean isBooked() {
         return this.isBooked;
     }
 
-    // Allows seat to be booked if available
+    /**
+     * Checks if seat can be booked, then cancels booking if unavailable or books for customer if available 
+     * @param passenger the Customer to be checked and given the seat to
+     * @return false if the seat is already taken, true if the booking was successful
+     */
     public boolean book(Customer passenger) {
         if (isBooked) {
             System.out.println("Seat " + seatNumber + " is already booked.");
@@ -38,13 +59,17 @@ public class Seat {
         return true;
     }
 
-    // Cancel the booking if reservation is canceled
+    /**
+     * Cancels booking if customer cancels, frees up seat for another customer
+     */
     public void cancelBooking() {
         this.isBooked = false;
         this.passenger = null;
     }
 
-    // Display seat info for testing purposes
+    /**
+     * Displays seat info for testing 
+     */
     public void displaySeatInfo() {
         System.out.println("Seat Number: " + this.seatNumber);
         System.out.println("Seat Class: " + this.seatClass);

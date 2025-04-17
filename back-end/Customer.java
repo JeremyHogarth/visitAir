@@ -1,5 +1,11 @@
 import java.util.UUID;
-
+/**
+ * Controls a customer's properties.
+ * <p>
+ * Sets a customer's name, email, password, and uid. The customer can also be a guest, in which case the they wouldn't have an account, and as such, none of those properties to be set except a name. This class also houses the getter methods for name, email, Uid, and whether an account is made or not.
+ * Date:
+ * @author X
+ */
 public class Customer {
     private String name;
     private String email;
@@ -8,7 +14,14 @@ public class Customer {
     private String uid;
     private String typeCustomer;
 
-    // Constructor
+    /**
+     * Constructor for customers, creating fields for their name, email, password, and whether they already have an account or not
+     * @param name The customer's name
+     * @param email The customer's email
+     * @param password The customer's password
+     * @param hasAccount boolean of whether the customer already has an account or not
+     * @throws IllegalArgumentException if user didn't enter a name
+     */
     public Customer(String name, String email, String password, boolean hasAccount) {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Name is required");
@@ -22,24 +35,37 @@ public class Customer {
         this.typeCustomer = setCustomerType();
     }
 
-    // Overloaded constructor for guest users
+    /**
+     * Overloaded constructor for guest users, setting the guest's email, password, and hasAccount to null instead of requiring those parameters
+     * @param name The customer's name
+     */
     public Customer(String name) {
         this(name, null, null, false);
     }
 
     // Set account status
+    /**
+     * 
+     * @param status
+     */
     public void setAcc(boolean status) {
         this.hasAccount = status;
         this.uid = generateUID(); // Re-generate UID if status changes
         this.typeCustomer = setCustomerType();
     }
 
-    // Generate UID
+    /**
+     * Generates a UID for the user if they have an account
+     * @return a String of a random UUID to serve as the user's UID, or String "Guest" if they don't have an account
+     */
     private String generateUID() {
         return hasAccount ? UUID.randomUUID().toString() : "Guest";
     }
 
-    // Set Customer type
+    /**
+     * Set customer type as either a user if they have already made an account or a guest if not
+     * @return the type of customer this is (a user or guest)
+     */
     private String setCustomerType() {
         return hasAccount ? "User" : "Guest";
     }
@@ -61,7 +87,10 @@ public class Customer {
         return email;
     }
 
-    // Set name
+    /**
+     * Setter method to set a new user's name
+     * @param newName the name of the new user
+     */
     public void setName(String newName) {
         if (newName == null || newName.isEmpty()) {
             throw new IllegalArgumentException("Name cannot be empty");
@@ -69,7 +98,10 @@ public class Customer {
         this.name = newName;
     }
 
-    // Set password
+    /**
+     * Setter method to set a new user's password
+     * @param newPassword the password of the new user
+     */
     public void setPassword(String newPassword) {
         if (!hasAccount) {
             throw new UnsupportedOperationException("Guests cannot have passwords");
@@ -80,7 +112,9 @@ public class Customer {
         this.password = newPassword;
     }
 
-    // Display info
+    /**
+     * prints the name of a user, as well as the uid and email if they have an account or "Guest" if they don't
+     */
     public void displayInfo() {
         System.out.println(name + " | UID: " + uid + " | " + (email != null ? "Email: " + email : "Guest"));
     }
