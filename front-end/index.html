@@ -120,11 +120,18 @@
         <textarea id="supportMessage" name="supportMessage" rows="5" required></textarea><br /><br />
         <input type="submit" value="Submit" />
       </form>
+
+    <div id ="privacy" class ="content" style="display:none;">
+      <h2>Privacy Policy</h2>
+      <div id="privacyContent"></div>
+      <button id="backFromPrivacy" style="margin-top: 20px;">Back</button>
+    </div>
+    </div>
     </div>
   </div>
 
   <footer>
-    <p>&copy; 2025 VisitAir. | <a href="#privacy">Privacy Policy</a> | <a href="#terms">Terms & Conditions</a></p>
+    <p>&copy; 2025 VisitAir. | <a href="#privacy" class="nav-link">Privacy Policy</a> | <a href="#terms">Terms & Conditions</a></p>
   </footer>
 
   <datalist id="cityList">
@@ -151,6 +158,12 @@
       <span id="closeModal" class="close">&times;</span>
       <h2 id="modalTitle">Login</h2>
       <form id="authForm">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" required />
+        <br /><br />
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" required />
+        <br /><br />
         <label for="authEmail">Email:</label>
         <input type="email" id="authEmail" required />
         <br /><br />
