@@ -45,8 +45,8 @@ public class Customer {
 
     // Set account status
     /**
-     * 
-     * @param status
+     * sets whether a user has an account or not, and generates a UID if this status changes
+     * @param status boolean of whether there is an account or not for the user
      */
     public void setAcc(boolean status) {
         this.hasAccount = status;
