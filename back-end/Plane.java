@@ -1,9 +1,9 @@
 /**
  * Relates to the plane itself and its qualities that a flight is taking place on. Can handle information about the booking and display the current state of the plane
  * <br>
- * Date:
+ * Date: 4/17/2025 (last modified)
  * <br>
- * Author: Esteban Plata
+ * @author: Esteban Plata
  */
 public class Plane {
     private String model;
