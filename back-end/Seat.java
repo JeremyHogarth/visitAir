@@ -2,7 +2,9 @@
  * Controls the seats on the plane.
  * <p>
  * Will book seats for customers, but only if the seat is available. This requires checking the status of a seat, setting the status of the seat to "booked" for use in other classes, and pairing a customer with a seat (unless the customer later cancels and frees up the seat).
+ * <br>
  * Date: 4/17/2025 (last modified)
+ * <br>
  * @author: Esteban Plata
  */
 

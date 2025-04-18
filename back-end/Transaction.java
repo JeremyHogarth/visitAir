@@ -1,6 +1,8 @@
 /**
  * Extending the Reservation class, this class handles the transactions between customer and VisitAir, including payments and refunds
+ * <br>
  * Date:
+ * <br>
  * Author: X
  */
 public class Transaction extends Reservation {

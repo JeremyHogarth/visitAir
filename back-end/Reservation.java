@@ -1,9 +1,11 @@
 /**
  * The Reservation class manages the creation and management of a flight reservation.
+ * <br>
  * It handles associating a customer, flight, and payment method, as well as setting 
  * and displaying the reservation status.
- * 
+ * <br>
  * Date: 4/17/2025
+ * <br>
  * @author Esteban Plata
  */
 public class Reservation {
