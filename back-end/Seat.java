@@ -5,7 +5,7 @@
  * <br>
  * Date: 4/17/2025 (last modified)
  * <br>
- * @author: Esteban Plata
+ * @author Esteban Plata
  */
 
 public class Seat {
