@@ -1,7 +1,7 @@
 /**
  * A class related to a flight; it includes the ability to create flights along with the data needed for an airplane flight, as well as the ability to retrieve and print that data to a user.
- * Date:
- * @author X
+ * Date: 4/17/2025 (last modified)
+ * @author: Esteban Plata
  */
 public class Flight {
     private String flightNum;

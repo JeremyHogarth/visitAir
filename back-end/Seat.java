@@ -2,9 +2,10 @@
  * Controls the seats on the plane.
  * <p>
  * Will book seats for customers, but only if the seat is available. This requires checking the status of a seat, setting the status of the seat to "booked" for use in other classes, and pairing a customer with a seat (unless the customer later cancels and frees up the seat).
- * Date: 
- * @author X
+ * Date: 4/17/2025 (last modified)
+ * @author: Esteban Plata
  */
+
 public class Seat {
     private String seatNumber;
     private String seatClass;
