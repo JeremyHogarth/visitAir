@@ -1,3 +1,8 @@
+/**
+ * Extending the Reservation class, this class handles the transactions between customer and VisitAir, including payments and refunds
+ * Date:
+ * Author: X
+ */
 public class Transaction extends Reservation {
     private double price;
     private double balance;
@@ -6,6 +11,12 @@ public class Transaction extends Reservation {
     private boolean validated;
     private boolean approved;
 
+    /**
+     * Constructor to make a transaction, using the constructor in Reservation.
+     * This constructor also gives new fields, being price, the balance of a user, whether the transaction was validated and approved (both booleans) and type of transaction this was
+     * @param price the price the user is about to pay
+     * @throws IllegalArgumentException if the price to be payed isn't positive
+     */
     public Transaction(double price) {
         super(); // Call to Reservation constructor
         if (price <= 0) {
@@ -18,10 +29,20 @@ public class Transaction extends Reservation {
         this.type = null;
     }
 
+    /**
+     * Setter method to validate a transaction
+     * @param newValidation a boolean to determine whether the transaction was validated or not
+     */
     public void setValidation(boolean newValidation) {
         this.validated = newValidation;
     }
 
+    /**
+     * Takes away money from the user once a transaction is made
+     * @param paidAmount the amount of money to charge the user
+     * @return a string either telling the user that the payment was successful alond with change, or that they don't have enough money along with how much more they need
+     * @throws IllegalArgumentException if the amount to be paid is negative
+     */
     public String charge(double paidAmount) {
         if (paidAmount <= 0) {
             throw new IllegalArgumentException("Paid amount must be a positive number.");
@@ -37,6 +58,11 @@ public class Transaction extends Reservation {
         return String.format("Insufficient funds. You need $%.2f more.", remaining);
     }
 
+    /**
+     * Sets the type of transaction (which interaction between Visitair and user)
+     * @param requestedType the type of transaction to occur
+     * @throws IllegalArgumentException if the entered type of transaction isn't something VisitAir does
+     */
     public void setTransactionType(String requestedType) {
         if (requestedType == null || requestedType.trim().isEmpty()) {
             throw new IllegalArgumentException("Transaction type must be a valid string.");
@@ -44,6 +70,12 @@ public class Transaction extends Reservation {
         this.type = requestedType.toLowerCase();
     }
 
+    /**
+     * Refunds a customer for an amount they already payed after cancellation
+     * @param amount the amount the customer payed/is being payed back
+     * @throws IllegalArgumentException when amount to be refunded isn't a positive number
+     * @return a string stating how much has been refunded and the amount if this.approved==true, or a statement that the refund has been denied if not
+     */
     public String refund(double amount) {
         if (amount <= 0) {
             throw new IllegalArgumentException("Refund amount must be a positive number.");
@@ -54,7 +86,10 @@ public class Transaction extends Reservation {
         }
         return "Your refund request has been denied.";
     }
-
+    
+    /**
+     * Prints out all of the details regarding the transaction and the balance the customer has after the transaction
+     */
     public void displayTransactionInfo() {
         System.out.println("=== Transaction Details ===");
         System.out.println(String.format("Price: $%.2f", this.price));
