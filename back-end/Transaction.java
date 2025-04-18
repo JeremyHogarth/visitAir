@@ -1,9 +1,9 @@
 /**
  * Extending the Reservation class, this class handles the transactions between customer and VisitAir, including payments and refunds
  * <br>
- * Date:
+ * Date: 4/17/2025 (last modified)
  * <br>
- * Author: X
+ * Author: Esteban Plata
  */
 public class Transaction extends Reservation {
     private double price;

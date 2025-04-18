@@ -4,9 +4,9 @@ import java.util.UUID;
  * <p>
  * Sets a customer's name, email, password, and uid. The customer can also be a guest, in which case the they wouldn't have an account, and as such, none of those properties to be set except a name. This class also houses the getter methods for name, email, Uid, and whether an account is made or not.
  * <br>
- * Date:
+ * Date: 4/17/2025 (last modified)
  * <br>
- * @author X
+ * @author Esteban Plata
  */
 public class Customer {
     private String name;

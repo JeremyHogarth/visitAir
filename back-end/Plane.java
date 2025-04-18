@@ -3,7 +3,7 @@
  * <br>
  * Date:
  * <br>
- * Author: X
+ * Author: Esteban Plata
  */
 public class Plane {
     private String model;
