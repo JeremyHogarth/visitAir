@@ -296,6 +296,33 @@ input[type="submit"]:hover {
 .privacy-content li {
     margin-bottom: 8px;
 }
+
+.terms-content {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    margin: 15px 0;
+    max-height: 60vh;
+    overflow-y: auto;
+    color: #333;
+    line-height: 1.6;
+}
+
+.terms-content h3 {
+    color: #003366;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+.terms-content u1 {
+    padding-left: 20px;
+}
+
+.terms-content li {
+    margin-bottom: 8px;
+}
 /* Loading Spinner */
 .spinner {
     border: 4px solid #f3f3f3;
