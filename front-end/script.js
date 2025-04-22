@@ -25,6 +25,12 @@ document.querySelectorAll('nav a, footer a.nav-link').forEach(link => {
         document.getElementById('home').style.display = 'block';
 });
 
+//Back button from terms & conditions
+    document.getElementById('backFromTerms')?.addEventListener('click', () => {
+        document.getElementById('terms').style.display = 'none';
+        document.getElementById('home').style.display = 'block';
+});
+
 
 // Flight Search Form
 document.getElementById('flightSearchForm').addEventListener('submit', function(e) {
