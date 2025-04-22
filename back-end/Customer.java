@@ -24,6 +24,9 @@ public class Customer {
      * @param hasAccount boolean of whether the customer already has an account or not
      * @throws IllegalArgumentException if user didn't enter a name
      */
+    public Customer() {
+    }
+    //^^Empty Constructor
     public Customer(String name, String email, String password, boolean hasAccount) {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Name is required");

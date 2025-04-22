@@ -21,6 +21,11 @@ public class Flight {
      * @param baseFare the initial cost of a basic seat
      * @throws IllegalArgumentException if the flight number or base fare isn't set
      */
+    
+    public Flight() {
+    }
+    //^^Empty Constructor
+    
     public Flight(String flightNum, String departureCity, String arrivalCity, String departureTime, double baseFare) {
         if (flightNum == null || flightNum.trim().isEmpty()) {
             throw new IllegalArgumentException("Flight number must not be empty.");

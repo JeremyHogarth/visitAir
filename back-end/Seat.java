@@ -19,6 +19,9 @@ public class Seat {
      * @param seatNumber the number assigned to the seat
      * @param seatClass the class assigned to the seat (Economy, Business, or First Class)
      */
+    public Seat() {
+    }
+    //^^Empty Constructor
     public Seat(String seatNumber, String seatClass) {
         if (seatNumber == null || seatClass == null) {
             throw new IllegalArgumentException("Seat number and seat class are required.");
@@ -36,6 +39,13 @@ public class Seat {
      */
     public String getSeatNumber() {
         return this.seatNumber;
+    }
+    /**
+     * Getter for seat class that is used in Info class for information 
+     * @return the seat class that was booked
+     */
+    public String getSeatClass() {
+        return this.seatClass;
     }
 
     /**
