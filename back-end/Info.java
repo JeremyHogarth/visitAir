@@ -20,9 +20,10 @@ class Info {
     }
 }
 
-public class main {
+/*public class main {
     public static void main(String[] args) {
         ArrayList<Info> cusInfo = new ArrayList<>();
         cusInfo.add(new Info());
     }
 }
+*/
