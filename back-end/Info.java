@@ -1,10 +1,10 @@
 import java.util.UUID;
 /**
- * Stores cusomer info.
+ * Stores customer info.
  * <p>
  * Stores all of the customer's info that include seat numbers, flight info, customer account info, etc.
- * Date:
- * @author X
+ * Date:4/18/25
+ * @author Sean Cano
  */
 public class Info {
     public Info(String cusName, String cusEmail, String cusFlightNum, String cusDepartureCity, 
