@@ -110,250 +110,35 @@ function generateSeatOverlay() {
     selectedSeats = [];
     totalPassengers = parseInt(document.getElementById('passengers').value);
 
-    const seatPositions = [
-        // First Class (8 seats)
-        { top: '3%', left: '40%', class: 'first', price: '$500' },
-        { top: '3%', left: '55%', class: 'first', price: '$500' },
+    const seatPositions = [];
 
-        { top: '7%', left: '40%', class: 'first', price: '$500' },
-        { top: '7%', left: '55%', class: 'first', price: '$500' },
+    //First Class (8 seats)
+    for (let i =0; i <4; i++) {
+        const top = 3 + i * 4 + '%';
+        seatPositions.push(
+            { top, left: '40%', class: 'first', price: '$500' },
+            { top, left: '55%', class: 'first', price: '$500' }
+        );
+    }
 
-        { top: '11%', left: '40%', class: 'first', price: '$500' },
-        { top: '11%', left: '55%', class: 'first', price: '$500' },
+    //Business Class (44 seats)
+    const businessLeftPositions = ['35%', '40%', '55%', '60%'];
+    for (let i =0; i < 11; i++) {
+        const top = 21.5 + i * 2 + '%';
+        businessLeftPositions.forEach(left => {
+            seatPositions.push({ top, left, class: 'business', price: '$300' });
+        });
+    }
 
-        { top: '15%', left: '40%', class: 'first', price: '$500' },
-        { top: '15%', left: '55%', class: 'first', price: '$500' },
-
-        // Business Class
-        { top: '21.5%', left: '35%', class: 'business', price: '$300' },
-        { top: '21.5%', left: '40%', class: 'business', price: '$300' },
-        { top: '21.5%', left: '55%', class: 'business', price: '$300' },
-        { top: '21.5%', left: '60%', class: 'business', price: '$300' },
-
-        { top: '24.5%', left: '35%', class: 'business', price: '$300' },
-        { top: '24.5%', left: '40%', class: 'business', price: '$300' },
-        { top: '24.5%', left: '55%', class: 'business', price: '$300' },
-        { top: '24.5%', left: '60%', class: 'business', price: '$300' },
-
-        { top: '26.5%', left: '35%', class: 'business', price: '$300' },
-        { top: '26.5%', left: '40%', class: 'business', price: '$300' },
-        { top: '26.5%', left: '55%', class: 'business', price: '$300' },
-        { top: '26.5%', left: '60%', class: 'business', price: '$300' },
-
-        { top: '28.5%', left: '35%', class: 'business', price: '$300' },
-        { top: '28.5%', left: '40%', class: 'business', price: '$300' },
-        { top: '28.5%', left: '55%', class: 'business', price: '$300' },
-        { top: '28.5%', left: '60%', class: 'business', price: '$300' },
-
-        { top: '30.5%', left: '35%', class: 'business', price: '$300' },
-        { top: '30.5%', left: '40%', class: 'business', price: '$300' },
-        { top: '30.5%', left: '55%', class: 'business', price: '$300' },
-        { top: '30.5%', left: '60%', class: 'business', price: '$300' },
-
-        { top: '32.5%', left: '35%', class: 'business', price: '$300' },
-        { top: '32.5%', left: '40%', class: 'business', price: '$300' },
-        { top: '32.5%', left: '55%', class: 'business', price: '$300' },
-        { top: '32.5%', left: '60%', class: 'business', price: '$300' },
-
-        { top: '34.5%', left: '35%', class: 'business', price: '$300' },
-        { top: '34.5%', left: '40%', class: 'business', price: '$300' },
-        { top: '34.5%', left: '55%', class: 'business', price: '$300' },
-        { top: '34.5%', left: '60%', class: 'business', price: '$300' },
-
-        { top: '36.5%', left: '35%', class: 'business', price: '$300' },
-        { top: '36.5%', left: '40%', class: 'business', price: '$300' },
-        { top: '36.5%', left: '55%', class: 'business', price: '$300' },
-        { top: '36.5%', left: '60%', class: 'business', price: '$300' },
-
-        { top: '38.5%', left: '35%', class: 'business', price: '$300' },
-        { top: '38.5%', left: '40%', class: 'business', price: '$300' },
-        { top: '38.5%', left: '55%', class: 'business', price: '$300' },
-        { top: '38.5%', left: '60%', class: 'business', price: '$300' },
-
-        { top: '40.5%', left: '35%', class: 'business', price: '$300' },
-        { top: '40.5%', left: '40%', class: 'business', price: '$300' },
-        { top: '40.5%', left: '55%', class: 'business', price: '$300' },
-        { top: '40.5%', left: '60%', class: 'business', price: '$300' },
-
-        { top: '42.5%', left: '35%', class: 'business', price: '$300' },
-        { top: '42.5%', left: '40%', class: 'business', price: '$300' },
-        { top: '42.5%', left: '55%', class: 'business', price: '$300' },
-        { top: '42.5%', left: '60%', class: 'business', price: '$300' },
-
-        { top: '44.5%', left: '35%', class: 'business', price: '$300' },
-        { top: '44.5%', left: '40%', class: 'business', price: '$300' },
-        { top: '44.5%', left: '55%', class: 'business', price: '$300' },
-        { top: '44.5%', left: '60%', class: 'business', price: '$300' },
-
-        // Economy Class
-        { top: '47.5%', left: '34%', class: 'economy', price: '$150' },
-        { top: '47.5%', left: '38.5%', class: 'economy', price: '$150' },
-        { top: '47.5%', left: '43%', class: 'economy', price: '$150' },
-        { top: '47.5%', left: '52%', class: 'economy', price: '$150' },
-        { top: '47.5%', left: '56.5%', class: 'economy', price: '$150' },
-        { top: '47.5%', left: '61%', class: 'economy', price: '$150' },
-
-        { top: '49.5%', left: '34%', class: 'economy', price: '$150' },
-        { top: '49.5%', left: '38.5%', class: 'economy', price: '$150' },
-        { top: '49.5%', left: '43%', class: 'economy', price: '$150' },
-        { top: '49.5%', left: '52%', class: 'economy', price: '$150' },
-        { top: '49.5%', left: '56.5%', class: 'economy', price: '$150' },
-        { top: '49.5%', left: '61%', class: 'economy', price: '$150' },
-
-        { top: '51.5%', left: '34%', class: 'economy', price: '$150' },
-        { top: '51.5%', left: '38.5%', class: 'economy', price: '$150' },
-        { top: '51.5%', left: '43%', class: 'economy', price: '$150' },
-        { top: '51.5%', left: '52%', class: 'economy', price: '$150' },
-        { top: '51.5%', left: '56.5%', class: 'economy', price: '$150' },
-        { top: '51.5%', left: '61%', class: 'economy', price: '$150' },
-
-        { top: '53.5%', left: '34%', class: 'economy', price: '$150' },
-        { top: '53.5%', left: '38.5%', class: 'economy', price: '$150' },
-        { top: '53.5%', left: '43%', class: 'economy', price: '$150' },
-        { top: '53.5%', left: '52%', class: 'economy', price: '$150' },
-        { top: '53.5%', left: '56.5%', class: 'economy', price: '$150' },
-        { top: '53.5%', left: '61%', class: 'economy', price: '$150' },
-
-        { top: '55.5%', left: '34%', class: 'economy', price: '$150' },
-        { top: '55.5%', left: '38.5%', class: 'economy', price: '$150' },
-        { top: '55.5%', left: '43%', class: 'economy', price: '$150' },
-        { top: '55.5%', left: '52%', class: 'economy', price: '$150' },
-        { top: '55.5%', left: '56.5%', class: 'economy', price: '$150' },
-        { top: '55.5%', left: '61%', class: 'economy', price: '$150' },
-
-        { top: '57.5%', left: '34%', class: 'economy', price: '$150' },
-        { top: '57.5%', left: '38.5%', class: 'economy', price: '$150' },
-        { top: '57.5%', left: '43%', class: 'economy', price: '$150' },
-        { top: '57.5%', left: '52%', class: 'economy', price: '$150' },
-        { top: '57.5%', left: '56.5%', class: 'economy', price: '$150' },
-        { top: '57.5%', left: '61%', class: 'economy', price: '$150' },
-
-        { top: '59.5%', left: '34%', class: 'economy', price: '$150' },
-        { top: '59.5%', left: '38.5%', class: 'economy', price: '$150' },
-        { top: '59.5%', left: '43%', class: 'economy', price: '$150' },
-        { top: '59.5%', left: '52%', class: 'economy', price: '$150' },
-        { top: '59.5%', left: '56.5%', class: 'economy', price: '$150' },
-        { top: '59.5%', left: '61%', class: 'economy', price: '$150' },
-
-        { top: '61.5%', left: '34%', class: 'economy', price: '$150' },
-        { top: '61.5%', left: '38.5%', class: 'economy', price: '$150' },
-        { top: '61.5%', left: '43%', class: 'economy', price: '$150' },
-        { top: '61.5%', left: '52%', class: 'economy', price: '$150' },
-        { top: '61.5%', left: '56.5%', class: 'economy', price: '$150' },
-        { top: '61.5%', left: '61%', class: 'economy', price: '$150' },
-
-        { top: '63.5%', left: '34%', class: 'economy', price: '$150' },
-        { top: '63.5%', left: '38.5%', class: 'economy', price: '$150' },
-        { top: '63.5%', left: '43%', class: 'economy', price: '$150' },
-        { top: '63.5%', left: '52%', class: 'economy', price: '$150' },
-        { top: '63.5%', left: '56.5%', class: 'economy', price: '$150' },
-        { top: '63.5%', left: '61%', class: 'economy', price: '$150' },
-
-        { top: '63.5%', left: '34%', class: 'economy', price: '$150' },
-        { top: '63.5%', left: '38.5%', class: 'economy', price: '$150' },
-        { top: '63.5%', left: '43%', class: 'economy', price: '$150' },
-        { top: '63.5%', left: '52%', class: 'economy', price: '$150' },
-        { top: '63.5%', left: '56.5%', class: 'economy', price: '$150' },
-        { top: '63.5%', left: '61%', class: 'economy', price: '$150' },
-
-        { top: '65.5%', left: '34%', class: 'economy', price: '$150' },
-        { top: '65.5%', left: '38.5%', class: 'economy', price: '$150' },
-        { top: '65.5%', left: '43%', class: 'economy', price: '$150' },
-        { top: '65.5%', left: '52%', class: 'economy', price: '$150' },
-        { top: '65.5%', left: '56.5%', class: 'economy', price: '$150' },
-        { top: '65.5%', left: '61%', class: 'economy', price: '$150' },
-
-        { top: '67.5%', left: '34%', class: 'economy', price: '$150' },
-        { top: '67.5%', left: '38.5%', class: 'economy', price: '$150' },
-        { top: '67.5%', left: '43%', class: 'economy', price: '$150' },
-        { top: '67.5%', left: '52%', class: 'economy', price: '$150' },
-        { top: '67.5%', left: '56.5%', class: 'economy', price: '$150' },
-        { top: '67.5%', left: '61%', class: 'economy', price: '$150' },
-
-        { top: '69.5%', left: '34%', class: 'economy', price: '$150' },
-        { top: '69.5%', left: '38.5%', class: 'economy', price: '$150' },
-        { top: '69.5%', left: '43%', class: 'economy', price: '$150' },
-        { top: '69.5%', left: '52%', class: 'economy', price: '$150' },
-        { top: '69.5%', left: '56.5%', class: 'economy', price: '$150' },
-        { top: '69.5%', left: '61%', class: 'economy', price: '$150' },
-
-        { top: '71.5%', left: '34%', class: 'economy', price: '$150' },
-        { top: '71.5%', left: '38.5%', class: 'economy', price: '$150' },
-        { top: '71.5%', left: '43%', class: 'economy', price: '$150' },
-        { top: '71.5%', left: '52%', class: 'economy', price: '$150' },
-        { top: '71.5%', left: '56.5%', class: 'economy', price: '$150' },
-        { top: '71.5%', left: '61%', class: 'economy', price: '$150' },
-
-        { top: '73.5%', left: '34%', class: 'economy', price: '$150' },
-        { top: '73.5%', left: '38.5%', class: 'economy', price: '$150' },
-        { top: '73.5%', left: '43%', class: 'economy', price: '$150' },
-        { top: '73.5%', left: '52%', class: 'economy', price: '$150' },
-        { top: '73.5%', left: '56.5%', class: 'economy', price: '$150' },
-        { top: '73.5%', left: '61%', class: 'economy', price: '$150' },
-
-        { top: '75.5%', left: '34%', class: 'economy', price: '$150' },
-        { top: '75.5%', left: '38.5%', class: 'economy', price: '$150' },
-        { top: '75.5%', left: '43%', class: 'economy', price: '$150' },
-        { top: '75.5%', left: '52%', class: 'economy', price: '$150' },
-        { top: '75.5%', left: '56.5%', class: 'economy', price: '$150' },
-        { top: '75.5%', left: '61%', class: 'economy', price: '$150' },
-
-        { top: '77.5%', left: '34%', class: 'economy', price: '$150' },
-        { top: '77.5%', left: '38.5%', class: 'economy', price: '$150' },
-        { top: '77.5%', left: '43%', class: 'economy', price: '$150' },
-        { top: '77.5%', left: '52%', class: 'economy', price: '$150' },
-        { top: '77.5%', left: '56.5%', class: 'economy', price: '$150' },
-        { top: '77.5%', left: '61%', class: 'economy', price: '$150' },
-
-        { top: '79.5%', left: '34%', class: 'economy', price: '$150' },
-        { top: '79.5%', left: '38.5%', class: 'economy', price: '$150' },
-        { top: '79.5%', left: '43%', class: 'economy', price: '$150' },
-        { top: '79.5%', left: '52%', class: 'economy', price: '$150' },
-        { top: '79.5%', left: '56.5%', class: 'economy', price: '$150' },
-        { top: '79.5%', left: '61%', class: 'economy', price: '$150' },
-
-        { top: '81.5%', left: '34%', class: 'economy', price: '$150' },
-        { top: '81.5%', left: '38.5%', class: 'economy', price: '$150' },
-        { top: '81.5%', left: '43%', class: 'economy', price: '$150' },
-        { top: '81.5%', left: '52%', class: 'economy', price: '$150' },
-        { top: '81.5%', left: '56.5%', class: 'economy', price: '$150' },
-        { top: '81.5%', left: '61%', class: 'economy', price: '$150' },
-
-        { top: '86.5%', left: '34%', class: 'economy', price: '$150' },
-        { top: '86.5%', left: '38.5%', class: 'economy', price: '$150' },
-        { top: '86.5%', left: '43%', class: 'economy', price: '$150' },
-        { top: '86.5%', left: '52%', class: 'economy', price: '$150' },
-        { top: '86.5%', left: '56.5%', class: 'economy', price: '$150' },
-        { top: '86.5%', left: '61%', class: 'economy', price: '$150' },
-
-        { top: '89.5%', left: '34%', class: 'economy', price: '$150' },
-        { top: '89.5%', left: '38.5%', class: 'economy', price: '$150' },
-        { top: '89.5%', left: '43%', class: 'economy', price: '$150' },
-        { top: '89.5%', left: '52%', class: 'economy', price: '$150' },
-        { top: '89.5%', left: '56.5%', class: 'economy', price: '$150' },
-        { top: '89.5%', left: '61%', class: 'economy', price: '$150' },
-
-        { top: '91.5%', left: '34%', class: 'economy', price: '$150' },
-        { top: '91.5%', left: '38.5%', class: 'economy', price: '$150' },
-        { top: '91.5%', left: '43%', class: 'economy', price: '$150' },
-        { top: '91.5%', left: '52%', class: 'economy', price: '$150' },
-        { top: '91.5%', left: '56.5%', class: 'economy', price: '$150' },
-        { top: '91.5%', left: '61%', class: 'economy', price: '$150' },
-
-        { top: '93.5%', left: '34%', class: 'economy', price: '$150' },
-        { top: '93.5%', left: '38.5%', class: 'economy', price: '$150' },
-        { top: '93.5%', left: '43%', class: 'economy', price: '$150' },
-        { top: '93.5%', left: '52%', class: 'economy', price: '$150' },
-        { top: '93.5%', left: '56.5%', class: 'economy', price: '$150' },
-        { top: '93.5%', left: '61%', class: 'economy', price: '$150' },
-
-        { top: '95.5%', left: '34%', class: 'economy', price: '$150' },
-        { top: '95.5%', left: '38.5%', class: 'economy', price: '$150' },
-        { top: '95.5%', left: '43%', class: 'economy', price: '$150' },
-        { top: '95.5%', left: '52%', class: 'economy', price: '$150' },
-        { top: '95.5%', left: '56.5%', class: 'economy', price: '$150' },
-        { top: '95.5%', left: '61%', class: 'economy', price: '$150' },
-    ];
+    //Economy Class
+    const economyLeftPositions = ['34%', '38.5%', '43%', '52%', '56.5%', '61%']
+    for (let i = 0; i < 24; i++) {
+        const top = 47.5 + i * 2 + '%';
+        economyLeftPositions.forEach(left => {
+            seatPositions.push({ top, left, class: 'economy', price: '$150' });
+        });
+    }
+     
 
     const takenSeats = [2, 5, 10, 15]; // Example taken seats
 
