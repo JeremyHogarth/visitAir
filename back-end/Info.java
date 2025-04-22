@@ -6,7 +6,7 @@ import java.util.UUID;
  * Date:
  * @author X
  */
-class Info {
+public class Info {
     public Info(String cusName, String cusEmail, String cusFlightNum, String cusDepartureCity, 
     String cusArrivalCity, String cusDepartureTime, String cusSeatNumber, String cusSeatClass) {
         cusName = getName();
