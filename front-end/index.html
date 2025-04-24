@@ -38,6 +38,21 @@
         <input type="email" id="email" name="email" required /><br /><br />
         <label for="passengers">Number of Passengers:</label><br />
         <input type="number" id="passengers" name="passengers" min="1" max="10" value="1" required /><br /><br />
+
+        <label for="tripType">Trip Type:</label><br />
+        <select id="tripType" name="tripType" required>
+          <option value="one-way">One Way</option>
+          <option value="round-trip">Round Trip</option>
+        </select><br /><br />
+
+        <label for="departureDate">Departure Date:</label><br />
+        <input type="text" id="departureDate" name="departureDate" required readonly /><br /><br />
+
+        <div id="returnDateContainer" style="display.none;">
+          <label for="returnDate">Return Date:</label><br />
+          <input type="text" id="returnDate" name="returnDate" readonly /><br /><br />
+        </div>"
+
         <label for="departureCity">City of Departure:</label><br />
         <input type="text" id="departureCity" name="departureCity" list="cityList" required /><br /><br />
         <label for="arrivalCity">City of Arrival:</label><br />
