@@ -5,7 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>VisitAir - Flight Booking System</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" />
+  <link rel ="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
   <link rel="stylesheet" href="styles.css" />
+  <!--Load jQuery first -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Then load jQuery UI -->
+   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
   <header>
@@ -48,10 +53,10 @@
         <label for="departureDate">Departure Date:</label><br />
         <input type="text" id="departureDate" name="departureDate" required readonly /><br /><br />
 
-        <div id="returnDateContainer" style="display.none;">
+        <div id="returnDateContainer" style="display:none;">
           <label for="returnDate">Return Date:</label><br />
           <input type="text" id="returnDate" name="returnDate" readonly /><br /><br />
-        </div>"
+        </div>
 
         <label for="departureCity">City of Departure:</label><br />
         <input type="text" id="departureCity" name="departureCity" list="cityList" required /><br /><br />
