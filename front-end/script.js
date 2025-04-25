@@ -1,7 +1,62 @@
 // Initialize the page with Home section visible
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function()  {
     document.querySelector('#home').style.display = 'block';
+    initDatepickers();
 });
+
+//Initialize datepickers
+function initDatepickers() {
+    //Departure date (min today)
+    $(function() {
+        $('#departureDate').datepicker({
+            minDate: 0,
+            dateFormat: 'mm/dd/yy',
+            onSelect: function(selectedDate) {
+                // Set return date min date to departure date
+                $('#returnDate').datepicker('option', 'minDate', selectedDate);
+            }
+        });
+
+        // Return date
+        $('#returnDate').datepicker({
+            minDate: 0,
+            dateFormat: 'mm/dd/yy'
+        });
+    });
+}
+
+document.getElementById('tripType').addEventListener('change', function() {
+    const returnDateContainer = document.getElementById('returnDateContainer');
+    if (this.value == 'round-trip') {
+        returnDateContainer.style.display = 'block';
+        document.getElementById('returnDate').required = true;
+    } else {
+        returnDateContainer.style.display = 'none';
+        document.getElementById('returnDate').required = false;
+    }
+});
+
+
+
+//Call initDatepickers when the reserve section is shown
+document.querySelectorAll('nav am footer a.nav-link').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+
+        document.querySelectorAll('.content').forEach(content => {
+            content.style.display = 'none';
+        });
+
+        document.getElementById(targetId).style.display = 'block';
+
+        //Initialize datepickers if we're showing the reserve section
+        if (targetId === 'reserve') {
+        
+        }
+    });
+});    
+
 
 // Navigation between sections
 document.querySelectorAll('nav a, footer a.nav-link').forEach(link => {
@@ -40,6 +95,9 @@ document.getElementById('flightSearchForm').addEventListener('submit', function(
     const arrivalCity = document.getElementById('arrivalCity').value.trim();
     const flightType = document.getElementById('flightType').value;
     const passengers = parseInt(document.getElementById('passengers').value);
+    const departureDate = document.getElementById('departureDate').value;
+    const tripType = document.getElementById('tripType').value;
+    const returnDate = tripType === 'round-trip' ? document.getElementById('returnDate').value : null;
 
     if (!departureCity || !arrivalCity) {
         alert('Please enter both departure and arrival cities.');
@@ -53,6 +111,16 @@ document.getElementById('flightSearchForm').addEventListener('submit', function(
 
     if (passengers < 1 || passengers > 10) {
         alert('Please enter a valid number of passengers (1-10).');
+        return;
+    }
+
+    if (!departureDate) {
+        alert('Please select a departure date.');
+        return;
+    }
+
+    if (tripType === 'round-trip' && !returnDate) {
+        alert('Please select a return date for round trips.');
         return;
     }
 
