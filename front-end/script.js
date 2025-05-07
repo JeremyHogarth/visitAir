@@ -292,7 +292,7 @@ document.getElementById('transactionForm').addEventListener('submit', e => {
     return alert('Please enter a valid CVV (3 or 4 digits)');
   }
   if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiryDate)) {
-    return alert('Please enter expiry as MM/YY');
+    return alert('Please enter expire as MM/YY');
   }
 
   const confirmationNumber = Math.floor(Math.random() * 1_000_000);
@@ -342,7 +342,7 @@ document.getElementById('trackFlightForm').addEventListener('submit', e => {
         <p>Flight Number: ${data.flightNumber}</p>
         <p>Departure: ${data.destination} Estimated Time Departure: ${data.departureTime}</p>
         <p>Destintion: ${data.destination} Estimated Time Arrival: ${data.arrivalTime}</p>
-        <p>Seat: ${data.seat}</p>`;
+        <p>Seat: ${data.seat} Seat Class: ${data.seatClass}</p>`;
     })
     .catch(err => {
       document.getElementById('trackingResult').innerHTML = `<p style="color:red;">${err.message}</p>`;
