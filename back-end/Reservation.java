@@ -1,12 +1,14 @@
+import java.util.UUID;
+
 /**
  * The Reservation class manages the creation and management of a flight reservation.
  * <br>
  * It handles associating a customer, flight, and payment method, as well as setting 
- * and displaying the reservation status.
+ * and displaying the reservation status. It also generates the confirmation number.
  * <br>
  * Date: 4/17/2025
  * <br>
- * @author Esteban Plata
+ * @author Esteban Plata Sean Cano
  */
 public class Reservation {
 
@@ -14,16 +16,18 @@ public class Reservation {
     private Flight flight;
     private Customer customer;
     private boolean booked;
+    private String confirmationNum;
 
     /**
      * Default constructor that initializes a Reservation object with default values.
-     * The payment method, flight, and customer are set to null, and the reservation is marked as not booked.
+     * The payment method, confrimation number, flight, and customer are set to null, and the reservation is marked as not booked.
      */
     public Reservation() {
         this.paymentType = null;
         this.flight = null;
         this.customer = null;
         this.booked = false;
+        this.confirmationNum = null;
     }
 
     /**
@@ -48,6 +52,7 @@ public class Reservation {
      */
     public void setBooked(boolean status) {
         this.booked = status;
+        confirmationNum = generateConfirmationNumber();
     }
 
     /**
@@ -92,6 +97,15 @@ public class Reservation {
         setPayment(paymentMethod);
         setBooked(true);
         System.out.println("Reservation successfully created.");
+    }
+
+    public String generateConfirmationNumber() {
+        // Generates a unique 6-character alphanumeric confirmation number
+            return UUID.randomUUID().toString().substring(0, 6).toUpperCase();
+    }
+
+    public String getConfrimationNumber() {
+        return confirmationNum;
     }
 
     /**
