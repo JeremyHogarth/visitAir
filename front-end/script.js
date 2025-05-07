@@ -329,10 +329,24 @@ document.getElementById('trackFlightForm').addEventListener('submit', e => {
   e.preventDefault();
   const tn = document.getElementById('trackingNumber').value.trim();
   if (!tn) return alert('Please enter a confirmation number');
-  document.getElementById('trackingResult').innerHTML = `
-    <p>Flight with confirmation number ${tn} is on time.</p>
-    <p>Estimated departure: 10:00 AM</p>
-    <p>Estimated arrival: 12:30 PM</p>`;
+  fetch(`/track?confirmationNumber=${encodeURIComponent(tn)}`)
+    .then(response => {
+      if (!response.ok) throw new Error("Reservation not found.");
+      return response.json();
+    })
+    .then(data => {
+      document.getElementById('trackingResult').innerHTML = `
+        <p>Confrimation Number: ${data.confirmationNumber}</p>
+        <p>Customer: ${data.customerName}</p>
+        <p>Email: ${data.email}</p>
+        <p>Flight Number: ${data.flightNumber}</p>
+        <p>Departure: ${data.destination} Estimated Time Departure: ${data.departureTime}</p>
+        <p>Destintion: ${data.destination} Estimated Time Arrival: ${data.arrivalTime}</p>
+        <p>Seat: ${data.seat}</p>`;
+    })
+    .catch(err => {
+      document.getElementById('trackingResult').innerHTML = `<p style="color:red;">${err.message}</p>`;
+    });
 });
 
 document.getElementById('supportForm').addEventListener('submit', e => {
