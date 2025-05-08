@@ -9,6 +9,7 @@ const PORT = 8080;
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.json());
 
 // Serve static files from the front-end folder (one level up)
 app.use(express.static(path.join(__dirname, '../front-end')));
@@ -42,6 +43,17 @@ app.post('/login', (req, res) => {
   }
 
   res.json({ message: 'Login successful', user });
+});
+
+app.post('/api/reservations', (req, res) => {
+  const { confirmationNumber, customer, flight, passengers, seats } = req.body;
+
+  // Logic to save reservation into your database or further processing
+
+  console.log('Received Reservation:', { confirmationNumber, customer, flight, passengers, seats });
+
+  // Respond with a success message
+  res.status(201).json({ message: 'Reservation confirmed' });
 });
 
 // Catch-all route (optional) for client-side routing
