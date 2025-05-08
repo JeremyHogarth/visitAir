@@ -129,6 +129,34 @@
       <div id="trackingResult"></div>
     </div>
 
+    <div id="admin" class="content" style="display:none;">
+      <h2>Admin Portal</h2>
+      
+      <div class="admin-section">
+          <h3>Edit Flights</h3>
+          <div id="flightListAdmin"></div>
+          <button id="addFlightBtn">Add New Flight</button>
+      </div>
+  
+      <div class="admin-section">
+          <h3>Edit Seat Pricing</h3>
+          <form id="seatPricingForm">
+              <label for="firstClassPrice">First Class ($):</label>
+              <input type="number" id="firstClassPrice" min="0" value="500" required />
+              
+              <label for="businessClassPrice">Business Class ($):</label>
+              <input type="number" id="businessClassPrice" min="0" value="300" required />
+              
+              <label for="economyClassPrice">Economy Class ($):</label>
+              <input type="number" id="economyClassPrice" min="0" value="150" required />
+              
+              <input type="submit" value="Update Pricing" />
+          </form>
+      </div>
+  
+      <button id="backFromAdmin" style="margin-top: 20px;">Back to Home</button>
+  </div>
+
     <div id="support" class="content" style="display:none;">
       <h2>Customer Support</h2>
       <form id="supportForm">
@@ -270,27 +298,33 @@
   </datalist>
 
   <!-- Login/Signup Modal -->
-  <div id="authModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span id="closeModal" class="close">&times;</span>
-      <h2 id="modalTitle">Login</h2>
-      <form id="authForm">
+<!-- Replace the existing authModal div with this: -->
+<div id="authModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span id="closeModal" class="close">&times;</span>
+    <h2 id="modalTitle">Login</h2>
+    <form id="authForm">
+      <!-- These fields will show ONLY for Sign Up -->
+      <div id="nameFields" style="display: none;">
         <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" required />
+        <input type="text" id="firstName" />
         <br /><br />
         <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" required />
+        <input type="text" id="lastName" />
         <br /><br />
-        <label for="authEmail">Email:</label>
-        <input type="email" id="authEmail" required />
-        <br /><br />
-        <label for="authPassword">Password:</label>
-        <input type="password" id="authPassword" required />
-        <br /><br />
-        <input type="submit" value="Submit" />
-      </form>
-    </div>
+      </div>
+      
+      <!-- These fields show for both Login and Sign Up -->
+      <label for="authEmail">Email:</label>
+      <input type="email" id="authEmail" required />
+      <br /><br />
+      <label for="authPassword">Password:</label>
+      <input type="password" id="authPassword" required />
+      <br /><br />
+      <input type="submit" value="Submit" />
+    </form>
   </div>
+</div>
 
   <script src="script.js"></script>
 </body>

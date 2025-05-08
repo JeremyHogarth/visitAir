@@ -1,9 +1,13 @@
+const API_BASE_URL = 'http://localhost:8080';
+const modalTitle = document.getElementById('modalTitle');
+if (!modalTitle) {
+  console.error('Modal title element not found!');
+}
 // Initialize the page with Home section visible and datepickers ready
 // ---------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
   showSection('home');
   initDatepickers();
-});
 
 // ---------------------------------------------------------------
 // Helper: centralised section switching (handles display + opacity)
@@ -169,6 +173,40 @@ document.getElementById('flightSearchForm').addEventListener('submit', e => {
 let selectedSeats = [];
 let totalPassengers = 1;
 
+// Mock flight data for admin editing
+let adminFlights = [
+  { id: 1, time: '10:00 AM', duration: '2h 30m', layovers: 'None', priceRange: '$230 – $300', type: 'domestic' },
+  { id: 2, time: '12:00 PM', duration: '3h 00m', layovers: '1 stop', priceRange: '$250 – $320', type: 'international' }
+];
+
+// Render flights in Admin Portal
+function renderAdminFlights() {
+  const flightListAdmin = document.getElementById('flightListAdmin');
+  flightListAdmin.innerHTML = '';
+
+  adminFlights.forEach(flight => {
+      const flightDiv = document.createElement('div');
+      flightDiv.className = 'admin-flight-item';
+      flightDiv.innerHTML = `
+          <p><strong>ID:</strong> ${flight.id}</p>
+          <p><strong>Time:</strong> <input type="text" value="${flight.time}" data-field="time" /></p>
+          <p><strong>Duration:</strong> <input type="text" value="${flight.duration}" data-field="duration" /></p>
+          <p><strong>Type:</strong> 
+              <select data-field="type">
+                  <option ${flight.type === 'domestic' ? 'selected' : ''}>domestic</option>
+                  <option ${flight.type === 'international' ? 'selected' : ''}>international</option>
+              </select>
+          </p>
+          <button class="save-flight-btn" data-id="${flight.id}">Save</button>
+          <button class="delete-flight-btn" data-id="${flight.id}">Delete</button>
+      `;
+      flightListAdmin.appendChild(flightDiv);
+  });
+}
+
+
+
+
 function generateSeatOverlay () {
   const seatOverlay = document.getElementById('seatOverlay');
   seatOverlay.innerHTML = '';
@@ -274,6 +312,94 @@ document.getElementById('backToFlights').addEventListener('click', () => {
   document.getElementById('airplaneDisplay').style.display = 'none';
   // Clear selected seats visually & reset list
   selectedSeats = [];
+});
+
+//Admin flight handlers
+// ---------------------------------------------------------------
+// Handle flight updates/deletions
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('save-flight-btn')) {
+      const flightId = parseInt(e.target.dataset.id);
+      const flightItem = e.target.closest('.admin-flight-item');
+      const inputs = flightItem.querySelectorAll('input, select');
+
+      const updatedFlight = { id: flightId };
+      inputs.forEach(input => {
+          updatedFlight[input.dataset.field] = input.value;
+      });
+
+      adminFlights = adminFlights.map(f => f.id === flightId ? updatedFlight : f);
+      alert('Flight updated!');
+  }
+
+  if (e.target.classList.contains('delete-flight-btn')) {
+      const flightId = parseInt(e.target.dataset.id);
+      adminFlights = adminFlights.filter(f => f.id !== flightId);
+      renderAdminFlights();
+      alert('Flight deleted!');
+  }
+});
+
+// Add new flight
+document.getElementById('addFlightBtn').addEventListener('click', () => {
+  const newId = adminFlights.length + 1;
+  adminFlights.push({
+      id: newId,
+      time: '00:00 AM',
+      duration: '0h 00m',
+      layovers: 'None',
+      priceRange: '$0',
+      type: 'domestic'
+  });
+  renderAdminFlights();
+});
+
+
+document.getElementById('addFlightBtn').addEventListener('click', () => {
+  const newId = adminFlights.length + 1;
+  adminFlights.push({
+      id: newId,
+      time: '00:00 AM',
+      duration: '0h 00m',
+      layovers: 'None',
+      priceRange: '$0',
+      type: 'domestic'
+  });
+  renderAdminFlights();
+});
+
+document.getElementById('backFromAdmin').addEventListener('click', () => {
+  showSection('home');
+});
+
+
+document.getElementById('seatPricingForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const firstClassPrice = document.getElementById('firstClassPrice').value;
+  const businessClassPrice = document.getElementById('businessClassPrice').value;
+  const economyClassPrice = document.getElementById('economyClassPrice').value;
+
+  alert(`Prices updated:
+      First Class: $${firstClassPrice}
+      Business Class: $${businessClassPrice}
+      Economy Class: $${economyClassPrice}`);
+});
+
+
+
+
+
+document.getElementById('seatPricingForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const firstClassPrice = document.getElementById('firstClassPrice').value;
+  const businessClassPrice = document.getElementById('businessClassPrice').value;
+  const economyClassPrice = document.getElementById('economyClassPrice').value;
+
+  // Update prices globally (you can store these in localStorage or a backend)
+  alert(`Prices updated:
+      First Class: $${firstClassPrice}
+      Business Class: $${businessClassPrice}
+      Economy Class: $${economyClassPrice}`);
 });
 
 
@@ -405,11 +531,15 @@ document.addEventListener('keydown', e => {
 
 loginBtn.addEventListener('click', () => {
   modalTitle.textContent = 'Login';
+  document.getElementById('nameFields').style.display = 'none';
+  document.getElementById('authForm').querySelector('input[type="submit"]').value = 'Login';
   authModal.style.display = 'flex';
 });
 
 signupBtn.addEventListener('click', () => {
   modalTitle.textContent = 'Sign Up';
+  document.getElementById('nameFields').style.display = 'block';
+  document.getElementById('authForm').querySelector('input[type="submit"]').value = 'Sign Up';
   authModal.style.display = 'flex';
 });
 
@@ -418,28 +548,111 @@ closeModal.addEventListener('click', () => {
   authForm.reset();
 });
 
-authForm.addEventListener('submit', async e => {
+authForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const email    = document.getElementById('authEmail').value.trim();
+  
+  const currentMode = document.getElementById('modalTitle').textContent.toLowerCase();
+  const email = document.getElementById('authEmail').value.trim();
   const password = document.getElementById('authPassword').value.trim();
-  const mode     = modalTitle.textContent.toLowerCase();
-  const endpoint = mode === 'sign up' ? 'signup' : 'login';
 
-  if (!email || !password) return alert('Please enter both email and password');
+  if (!email || !password) {
+    return alert('Please enter both email and password');
+  }
+
+  // Prepare request data
+  const requestData = { email, password };
+  let endpoint = '/login';
+
+  if (currentMode === 'sign up') {
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    if (!firstName || !lastName) {
+      return alert('Please enter your full name');
+    }
+    endpoint = '/signup';
+    requestData.firstName = firstName;
+    requestData.lastName = lastName;
+  }
 
   try {
-    const res  = await fetch(`http://localhost:8080/${endpoint}`, {
-      method : 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body   : JSON.stringify({ email, password })
+    const response = await fetch(`http://localhost:8080${endpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestData)
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || 'Authentication failed');
-    alert(`${modalTitle.textContent} successful for ${email}`);
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Request failed');
+    }
+
+    // Success handling
+    alert(`${currentMode === 'sign up' ? 'Sign up' : 'Login'} successful!`);
     authModal.style.display = 'none';
     authForm.reset();
+
+    // Handle admin status
+    if (currentMode === 'login' && data.user?.isAdmin) {
+      if (!document.getElementById('adminPortalBtn')) {
+        const adminBtn = document.createElement('button');
+        adminBtn.id = 'adminPortalBtn';
+        adminBtn.textContent = 'Admin Portal';
+        adminBtn.style.marginLeft = '10px';
+        adminBtn.style.backgroundColor = '#d9534f';
+        document.querySelector('.auth-buttons').appendChild(adminBtn);
+
+        adminBtn.addEventListener('click', () => {
+          showSection('admin');
+          renderAdminFlights();
+        });
+      }
+    }
+
+     // Store token for future requests
+     if (data.token) {
+      localStorage.setItem('authToken', data.token);
+    }
+
+    // ── NEW: Replace Login/Sign-Up with “Welcome, FirstName” & Logout ──
+    const authDiv = document.querySelector('.auth-buttons');
+    authDiv.innerHTML = '';  // clear out the two buttons
+
+    // Welcome message
+    const welcome = document.createElement('span');
+    welcome.id = 'welcomeMsg';
+    welcome.textContent = `Welcome, ${data.user.firstName}`;
+    authDiv.appendChild(welcome);
+
+    // Logout button
+    const logoutBtn = document.createElement('button');
+    logoutBtn.id = 'logoutBtn';
+    logoutBtn.textContent = 'Logout';
+    logoutBtn.style.marginLeft = '10px';
+    authDiv.appendChild(logoutBtn);
+
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('authToken');
+      // optionally: window.location.href = '/'; 
+      location.reload();
+    });
+    if (data.user.isAdmin) {
+      const adminBtn = document.createElement('button');
+      adminBtn.id = 'adminPortalBtn';
+      adminBtn.textContent = 'Admin Portal';
+      adminBtn.style.marginLeft = '10px';
+      // hook it up to your admin view:
+      adminBtn.addEventListener('click', () => {
+        showSection('admin');
+        renderAdminFlights();
+      });
+      authDiv.appendChild(adminBtn);
+    }
+
   } catch (err) {
     alert(`Error: ${err.message}`);
   }
 });
-
+});

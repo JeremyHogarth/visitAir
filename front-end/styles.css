@@ -270,6 +270,46 @@ input[type="submit"]:hover {
     height: 15px;
 }
 
+/* Admin Portal Styles */
+.admin-section {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.admin-flight-item {
+    background-color: #f8f9fa;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.admin-flight-item input, 
+.admin-flight-item select {
+    width: auto;
+    padding: 5px;
+    margin: 0 5px;
+}
+
+.save-flight-btn {
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.delete-flight-btn {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
 .privacy-content {
     background-color: #f8f9fa;
     padding: 20px;
@@ -431,6 +471,12 @@ input[type="submit"]:hover {
 .close:hover {
     color: #00509e;
 }
+
+
+#nameFields {
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
 
 /* Form Focus Styles */
 input:focus,
