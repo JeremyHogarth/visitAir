@@ -9,6 +9,7 @@ class Reservation {
         this.flight = null; // Flight for reservation not set upon start
         this.Customer = null; // Customer booking not set upon start
         this.booked = false; // Reservation not booked upon start
+        this.confirmationNum = null; // Confirmation Number not set upon start
     }
 
     // Sets the type of payment method
@@ -65,6 +66,15 @@ class Reservation {
             console.error("Error making reservation:", error.message);
         }
     }
+
+    // Generating Confirmation Number
+    generateConfirmationNumber() {
+        return crypto.randomUUID().substring(0, 6).toUpperCase();
+      }
+    
+      getConfirmationNumber() {
+        return this.confirmationNum;
+      }
 }
 
 export default Reservation;

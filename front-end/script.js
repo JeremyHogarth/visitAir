@@ -166,18 +166,18 @@ document.getElementById('flightSearchForm').addEventListener('submit', e => {
 // ---------------------------------------------------------------
 // SEAT SELECTION LOGIC (unchanged except calls to showSection)
 // ---------------------------------------------------------------
-let selectedSeats   = [];
+let selectedSeats = [];
 let totalPassengers = 1;
 
 function generateSeatOverlay () {
   const seatOverlay = document.getElementById('seatOverlay');
   seatOverlay.innerHTML = '';
-  selectedSeats   = [];
+  selectedSeats = [];
   totalPassengers = parseInt(document.getElementById('passengers').value, 10);
 
   const seatPositions = [];
 
-  // First class (8)
+  // First class (8 seats)
   for (let i = 0; i < 4; i++) {
     const top = 3 + i * 4 + '%';
     seatPositions.push(
@@ -186,14 +186,14 @@ function generateSeatOverlay () {
     );
   }
 
-  // Business (44)
+  // Business class (44 seats)
   const businessLeft = ['35%', '40%', '55%', '60%'];
   for (let i = 0; i < 11; i++) {
     const top = 21.5 + i * 2 + '%';
     businessLeft.forEach(left => seatPositions.push({ top, left, class: 'business', price: '$300' }));
   }
 
-  // Economy (144)
+  // Economy class (144 seats)
   const economyLeft = ['34%', '38.5%', '43%', '52%', '56.5%', '61%'];
   for (let i = 0; i < 24; i++) {
     const top = 47.5 + i * 2 + '%';
@@ -204,13 +204,14 @@ function generateSeatOverlay () {
 
   seatPositions.forEach((pos, index) => {
     const seat = document.createElement('div');
-    seat.className      = `seat ${pos.class}`;
-    seat.textContent    = index + 1;
-    seat.style.top      = pos.top;
-    seat.style.left     = pos.left;
-    seat.dataset.price  = pos.price;
-    seat.dataset.class  = pos.class;
-
+    seat.className = `seat ${pos.class}`;
+    seat.textContent = index + 1;
+    seat.style.top = pos.top;
+    seat.style.left = pos.left;
+    seat.dataset.price = pos.price;
+    seat.dataset.class = pos.class; // Add class info to data-seat-class
+    seat.dataset.seatNumber = index + 1; // Seat number
+    
     if (takenSeats.includes(index + 1)) {
       seat.classList.add('taken');
     } else {
@@ -227,10 +228,12 @@ function generateSeatOverlay () {
         document.getElementById('seatsRemaining').textContent = totalPassengers - selectedSeats.length;
         updateSelectedSeatsList();
       });
+
       seat.addEventListener('mouseenter', () => {
         seat.title = `Seat ${index + 1} (${pos.class} class): ${pos.price}`;
       });
     }
+
     seatOverlay.appendChild(seat);
   });
 }
@@ -278,7 +281,7 @@ document.getElementById('backToFlights').addEventListener('click', () => {
 // TRANSACTION FORM  →  BOOKING CONFIRMATION
 // ---------------------------------------------------------------
 
-document.getElementById('transactionForm').addEventListener('submit', e => {
+document.getElementById('transactionForm').addEventListener('submit', async e => {
   e.preventDefault();
 
   const cardNumber = document.getElementById('cardNumber').value.replace(/\s+/g, '');
@@ -292,22 +295,60 @@ document.getElementById('transactionForm').addEventListener('submit', e => {
     return alert('Please enter a valid CVV (3 or 4 digits)');
   }
   if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiryDate)) {
-    return alert('Please enter expire as MM/YY');
+    return alert('Please enter expiry as MM/YY');
   }
 
+  // Generate the confirmation number
   const confirmationNumber = Math.floor(Math.random() * 1_000_000);
 
-  // Populate confirmation details ------------------------------
-  document.getElementById('confirmationDetails').innerHTML = `
-    <p><strong>Name:</strong> ${document.getElementById('name').value}</p>
-    <p><strong>Email:</strong> ${document.getElementById('email').value}</p>
-    <p><strong>Departure City:</strong> ${document.getElementById('departureCity').value}</p>
-    <p><strong>Arrival City:</strong> ${document.getElementById('arrivalCity').value}</p>
-    <p><strong>Number of Passengers:</strong> ${totalPassengers}</p>
-    <p><strong>Seat Numbers:</strong> ${selectedSeats.join(', ')}</p>
-    <p><strong>Confirmation Number:</strong> ${confirmationNumber}</p>`;
+  // Gather reservation data (including seat info)
+  const customerName = document.getElementById('name').value;
+  const customerEmail = document.getElementById('email').value;
+  const departureCity = document.getElementById('departureCity').value;
+  const arrivalCity = document.getElementById('arrivalCity').value;
+  const passengerCount = totalPassengers;
+  const seatDetails = selectedSeats.map(seatNum => {
+    const seatElement = document.querySelector(`.seat[data-seat-number='${seatNum}']`);
+    return {
+      seatNumber: seatNum,
+      seatClass: seatElement ? seatElement.dataset.seatClass : 'economy',
+    };
+  });
 
-  showSection('confirmation');
+  // Send the reservation data to the backend
+  try {
+    const response = await fetch('/api/reservations', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        confirmationNumber,
+        customer: { name: customerName, email: customerEmail },
+        flight: { departureCity, arrivalCity },
+        passengers: passengerCount,
+        seats: seatDetails
+      }),
+    });
+    const result = await response.json();
+
+    if (response.ok) {
+      // Populate confirmation details
+      document.getElementById('confirmationDetails').innerHTML = `
+        <p><strong>Name:</strong> ${customerName}</p>
+        <p><strong>Email:</strong> ${customerEmail}</p>
+        <p><strong>Departure City:</strong> ${departureCity}</p>
+        <p><strong>Arrival City:</strong> ${arrivalCity}</p>
+        <p><strong>Number of Passengers:</strong> ${passengerCount}</p>
+        <p><strong>Seat Numbers:</strong> ${selectedSeats.join(', ')}</p>
+        <p><strong>Confirmation Number:</strong> ${confirmationNumber}</p>
+      `;
+
+      showSection('confirmation');
+    } else {
+      throw new Error(result.message || 'Reservation failed');
+    }
+  } catch (error) {
+    alert('Error: ' + error.message);
+  }
 });
 
 // Start new booking (reset forms + go back to reserve)
@@ -329,24 +370,10 @@ document.getElementById('trackFlightForm').addEventListener('submit', e => {
   e.preventDefault();
   const tn = document.getElementById('trackingNumber').value.trim();
   if (!tn) return alert('Please enter a confirmation number');
-  fetch(`/track?confirmationNumber=${encodeURIComponent(tn)}`)
-    .then(response => {
-      if (!response.ok) throw new Error("Reservation not found.");
-      return response.json();
-    })
-    .then(data => {
-      document.getElementById('trackingResult').innerHTML = `
-        <p>Confrimation Number: ${data.confirmationNumber}</p>
-        <p>Customer: ${data.customerName}</p>
-        <p>Email: ${data.email}</p>
-        <p>Flight Number: ${data.flightNumber}</p>
-        <p>Departure: ${data.destination} Estimated Time Departure: ${data.departureTime}</p>
-        <p>Destintion: ${data.destination} Estimated Time Arrival: ${data.arrivalTime}</p>
-        <p>Seat: ${data.seat} Seat Class: ${data.seatClass}</p>`;
-    })
-    .catch(err => {
-      document.getElementById('trackingResult').innerHTML = `<p style="color:red;">${err.message}</p>`;
-    });
+  document.getElementById('trackingResult').innerHTML = `
+    <p>Flight with confirmation number ${tn} is on time.</p>
+    <p>Estimated departure: 10:00 AM</p>
+    <p>Estimated arrival: 12:30 PM</p>`;
 });
 
 document.getElementById('supportForm').addEventListener('submit', e => {
